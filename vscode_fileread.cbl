@@ -18,6 +18,7 @@
            05 CITYCODE PIC 9(6).
            05 FAKE-CLM-FROM-DT-X           PIC X(01).
            05 FAKE-CLM-FROM-DT             PIC S9(05) COMP-3.
+           05 FAKE-CLM-FROM-INT            PIC 9(03).
 
        FD OUTFILE.
 
@@ -28,6 +29,8 @@
            05 CITYCODE-OUTPUT PIC 9(6).
            05 FAKE-CLM-FROM-DT-X-OUTPUT           PIC X(01).
            05 FAKE-CLM-FROM-DT-OUTPUT             PIC S9(05) COMP-3.
+           05 FAKE-CLM-FROM-INT-OUTPUT            PIC 9(03).
+
 
        WORKING-STORAGE SECTION.
        
@@ -60,6 +63,7 @@
                    MOVE CITYCODE TO CITYCODE-OUTPUT
                    MOVE FAKE-CLM-FROM-DT-X TO FAKE-CLM-FROM-DT-X-OUTPUT
                    MOVE FAKE-CLM-FROM-DT TO FAKE-CLM-FROM-DT-OUTPUT
+                   MOVE FAKE-CLM-FROM-INT TO FAKE-CLM-FROM-INT-OUTPUT
                    COMPUTE REC-COUNTER = REC-COUNTER + 1
            END-READ.
            
@@ -71,6 +75,7 @@
                DISPLAY "ALL >>>> " OUTRECORD
                DISPLAY "FAKE-CLM-FROM-DT-X >>> " FAKE-CLM-FROM-DT-X
                DISPLAY "FAKE-CLM-FROM-DT >>> " FAKE-CLM-FROM-DT
+               DISPLAY "FAKE-CLM-FROM-INT >>> " FAKE-CLM-FROM-INT
 
                WRITE OUTRECORD
            END-IF.

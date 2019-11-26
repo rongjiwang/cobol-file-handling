@@ -1,2 +1,2 @@
-ABC  wellington  city 112233                 1    
-DEF  upperhutt   city 223344                 1    
+ABC  wellington  city 112233               1    
+DEF  upperhutt   city 223344               1    
