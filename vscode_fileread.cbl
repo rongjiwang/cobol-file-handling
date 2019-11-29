@@ -16,9 +16,11 @@
            05 CITYNAME PIC A(12).
            05 CITYTYPE PIC A(5).
            05 CITYCODE PIC 9(6).
-           05 FAKE-CLM-FROM-DT-X           PIC X(01).
-           05 FAKE-CLM-FROM-DT             PIC S9(05) COMP-3.
-           05 FAKE-CLM-FROM-INT            PIC 9(03).
+           05 FAKE-CLM-FROM-DT-X           PIC X(1).
+           05 FAKE-CLM-FROM-DT             PIC S9(5) COMP-3.
+           05 FAKE-CLM-FROM-DT-1           PIC S9(5) COMP-3.
+           05 FAKE-CLM-FROM-INT            PIC 9(7).
+           05 FAKE-CLM-FROM-BINARY         PIC 9 COMP.
 
        FD OUTFILE.
 
@@ -27,18 +29,28 @@
            05 CITYNAME-OUTPUT PIC A(12).
            05 CITYTYPE-OUTPUT PIC A(5).
            05 CITYCODE-OUTPUT PIC 9(6).
-           05 FAKE-CLM-FROM-DT-X-OUTPUT           PIC X(01).
-           05 FAKE-CLM-FROM-DT-OUTPUT             PIC S9(05) COMP-3.
-           05 FAKE-CLM-FROM-INT-OUTPUT            PIC 9(03).
+           05 FAKE-CLM-FROM-DT-X-OUTPUT           PIC X(1).
+           05 FAKE-CLM-FROM-DT-OUTPUT             PIC S9(5) COMP-3.
+           05 FAKE-CLM-FROM-DT-1-OUTPUT           PIC S9(5) COMP-3.
+           05 FAKE-CLM-FROM-INT-OUTPUT            PIC 9(7).
+           05 FAKE-CLM-FROM-BINARY-OUT            PIC 9 COMP.
 
 
        WORKING-STORAGE SECTION.
+
+    *>    COPY "HGCPCLM.cpy".
        
        01 SWITCHES.
            05 EOF-SWITCH PIC X VALUE "N".
 
        01 COUNTERS.
            05 REC-COUNTER PIC 9(3) VALUE 0.
+
+       01 W-STORE-PD PIC S9(5) COMP-3 VALUE -0. 
+
+       LOCAL-STORAGE SECTION.
+
+       01 L-STORE-PD PIC S9(5) COMP-3 VALUE +72001. 
 
        PROCEDURE DIVISION.
        000-MAIN.
@@ -63,7 +75,9 @@
                    MOVE CITYCODE TO CITYCODE-OUTPUT
                    MOVE FAKE-CLM-FROM-DT-X TO FAKE-CLM-FROM-DT-X-OUTPUT
                    MOVE FAKE-CLM-FROM-DT TO FAKE-CLM-FROM-DT-OUTPUT
+                   MOVE FAKE-CLM-FROM-DT-1 TO FAKE-CLM-FROM-DT-1-OUTPUT
                    MOVE FAKE-CLM-FROM-INT TO FAKE-CLM-FROM-INT-OUTPUT
+                   MOVE FAKE-CLM-FROM-BINARY TO FAKE-CLM-FROM-BINARY-OUT
                    COMPUTE REC-COUNTER = REC-COUNTER + 1
            END-READ.
            
@@ -71,17 +85,21 @@
                DISPLAY "KEY  >>>> " CITYKEY
                DISPLAY "NAME >>>> " CITYNAME
                DISPLAY "TYPE >>>> " CITYTYPE
-               DISPLAY "CODE >>> > " CITYCODE
+               DISPLAY "CODE >>>> " CITYCODE
                DISPLAY "ALL >>>> " OUTRECORD
                DISPLAY "FAKE-CLM-FROM-DT-X >>> " FAKE-CLM-FROM-DT-X
                DISPLAY "FAKE-CLM-FROM-DT >>> " FAKE-CLM-FROM-DT
+               DISPLAY "FAKE-CLM-FROM-DT-1 >>> " FAKE-CLM-FROM-DT-1
                DISPLAY "FAKE-CLM-FROM-INT >>> " FAKE-CLM-FROM-INT
+               DISPLAY "FAKE-CLM-FROM-BINARY >>> " FAKE-CLM-FROM-BINARY
 
                WRITE OUTRECORD
            END-IF.
 
        300-TERMINATE.
            DISPLAY "NUM OF RECS >>>> " REC-COUNTER.
+           DISPLAY "W-STORE-PD >>> " W-STORE-PD.
+           DISPLAY "L-STORE-PD >>> " L-STORE-PD.
            CLOSE INFILE
                  OUTFILE.
 
